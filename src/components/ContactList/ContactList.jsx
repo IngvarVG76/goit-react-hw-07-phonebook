@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+import { deleteContact } from 'redux/operations';
 import { ContList, ContItem, ContButton } from './ContactList.styled';
 
 const ContactList = () => {
@@ -22,7 +22,7 @@ const ContactList = () => {
     <ContList>
       {filteredContacts.map(contact => (
         <ContItem key={contact.id}>
-          {contact.name}: {contact.number}
+          {contact.name}: {contact.phone}
           <ContButton onClick={() => handleDeleteContact(contact.id)}>
             Delete
           </ContButton>

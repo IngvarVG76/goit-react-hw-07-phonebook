@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Form, FormLabel, FormInput, FormBtn } from './ContactForm.styled';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 
 const ContactForm = () => {
+  const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch(addContact({ name, number }));
-    setName(''); 
-    setNumber(''); 
+    const isDuplicateName = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isDuplicateName) {
+      alert('This name is already in contacts!');
+      return;
+    }
+
+    const newContact = {
+      name: name,
+      phone: number,
+    };
+
+    dispatch(addContact(newContact));
+    setName('');
+    setNumber('');
   };
-  
+
   const handleNameChange = event => {
     setName(event.target.value);
   };
